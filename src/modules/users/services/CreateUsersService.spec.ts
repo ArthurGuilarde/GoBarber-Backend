@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import User from '@modules/users/infra/typeorm/entities/Users';
 import AppError from '@shared/errors/AppError';
 import CreateUsersService from './CreateUsersService';
