@@ -9,6 +9,7 @@ const profileController = new ProfileController();
 
 profileRoutes.use(authTokenCheck);
 
+profileRoutes.get('/', profileController.show);
 profileRoutes.put('/', profileController.update);
 
 export default profileRoutes;
