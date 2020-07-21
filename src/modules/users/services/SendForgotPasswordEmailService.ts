@@ -39,10 +39,20 @@ export default class SendForgotPasswordEmailService {
       expiresIn: '20m',
     });
 
-    await this.mailProvider.sendMail(
-      email,
-      `Pedido de recuperacao de senha. ${token}`,
-    );
+    await this.mailProvider.sendMail({
+      to: {
+        email,
+        name: userFound.name,
+      },
+      subject: '[Gobarber] Recuperação de senha',
+      templateData: {
+        template: 'Olá, {{name}}. Seu token é {{token}}',
+        variables: {
+          name: userFound.name,
+          token,
+        },
+      },
+    });
 
     return { token };
   }
