@@ -1,5 +1,6 @@
 import { sign } from 'jsonwebtoken';
 import { inject, injectable } from 'tsyringe';
+import path from 'path';
 
 import configAuth from '@config/configAuthorization';
 import AppError from '@shared/errors/AppError';
@@ -39,6 +40,13 @@ export default class SendForgotPasswordEmailService {
       expiresIn: '20m',
     });
 
+    const forgotPasswordTemplate = path.resolve(
+      __dirname,
+      '..',
+      'views',
+      'forgot_password.hbs',
+    );
+
     await this.mailProvider.sendMail({
       to: {
         email,
@@ -46,10 +54,10 @@ export default class SendForgotPasswordEmailService {
       },
       subject: '[Gobarber] Recuperação de senha',
       templateData: {
-        template: 'Olá, {{name}}. Seu token é {{token}}',
+        file: forgotPasswordTemplate,
         variables: {
           name: userFound.name,
-          token,
+          link: `http://localhost:3000/reset?token=${token}`,
         },
       },
     });
