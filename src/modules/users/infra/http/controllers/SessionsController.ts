@@ -1,3 +1,4 @@
+import { container } from 'tsyringe';
 import { Request, Response } from 'express';
 
 import sessionsCreateService from '@modules/users/services/CreateSessionService';
@@ -11,12 +12,12 @@ export default class SessionsController {
     const usersRepository = new UsersRepository();
     const { email, password } = request.body;
 
-    const { user, token } = await new sessionsCreateService(
-      usersRepository,
-    ).execute({
-      email,
-      password,
-    });
+    const { user, token } = await container
+      .resolve(sessionsCreateService)
+      .execute({
+        email,
+        password,
+      });
 
     delete user.password;
 

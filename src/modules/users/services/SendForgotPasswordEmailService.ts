@@ -39,7 +39,7 @@ export default class SendForgotPasswordEmailService {
       expiresIn: '20m',
     });
 
-    this.mailProvider.sendMail(
+    await this.mailProvider.sendMail(
       email,
       `Pedido de recuperacao de senha. ${token}`,
     );
